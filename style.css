@@ -30,5 +30,10 @@ body{
 
 }
 .contenido{
-    background-color: brown;
+    /* Estas tres lineas van a centrar el contenido verticalmente dentro de cada div */
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+    padding: 40px;
 }
