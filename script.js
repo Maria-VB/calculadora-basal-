@@ -1,46 +1,58 @@
-const FLUJO= document.getElementById("flu")
+let lista = ["ARBOL", "IGLESIA", "PUERTA", "CARTEL"];
+let intentos = 6;
+let palabra = lista[Math.floor(Math.random() * lista.length)];
+const API = "https://random-word-api.herokuapp.com/word?length=5&lang=es";
+fetch(API)
+  .then((response) => response.json()) 
+  .then((response) => {
+    console.log(response);
+    palabra = response[0].toUpperCase();
+    console.log(palabra);
+  })
+  .catch((err) => (palabra = lista[Math.floor(Math.ramdom() * lista.length)]));
 
-const BUTTON= document.getElementById("calcular");
-console.log(BUTTON)
-const INPUT= document.getElementById("peso");
-const ERROR= document.getElementById("error")
-
-BUTTON.addEventListener("click", ()=>{
-    let peso= INPUT.value;
-    if(peso=== " "){
-        ERROR.style.display="block";
-    } else if (peso<=30){
-        FLUJO.innerHTML= holliday(peso)+ " cc";
-        FLUJO.style.display="block";
-        ERROR.style.display="none"
-    } else if ( peso>30) {
-        let sc = superficieCorporal(peso)
-        FLUJO.innerHTML=sc[0] +" cc";
-        FLUJO.style.display="block";
-        ERROR.style.display="none";
-    }
-
-});
-
-  function holliday(peso){
-    let resultado = 0;
-    if (peso<=10){
-        resultado= peso*100;
-    }
-        else if(peso<=20){
-            resultado = 1000 + (peso - 10) * 50;
-
-    } 
-         else if (peso<=30){
-        resultado= 1500 + (peso-20) * 20;
-    }
-    
-    return resultado
-} 
-
-function superficieCorporal(peso){
-    let superficieCorporal= ( (peso*4)+ 7)/(peso+90);
-    return [(superficieCorporal*1500), (superficieCorporal*2000). tof]
+const input = document.getElementById("guess-input");
+const button = document.getElementById("guess-button");
+const valor = input.value;
+button.addEventListener("click", intentar);
+function leerIntento() {
+  let intento = document.getElementById("guess-input");
+  intento = intento.value;
+  intento = intento.toUpperCase();
+  return intento;
 }
+function intentar() {
+  const INTENTO = leerIntento();
+  const GRID = document.getElementById("grid");
+  const ROW = document.createElement("div");
+  ROW.className = "row";
+  if (INTENTO === palabra) {
+    terminar(" ndi ganaste");
+  }
+  for (let i in palabra) {
+    const SPAN = document.createElement("span");
+    SPAN.className = "letter";
+    if (INTENTO[i] === palabra[i]) {
+      SPAN.innerHTML = INTENTO[i];
+      SPAN.style.backgroundColor = "green";
+    } else if (palabra.includes(INTENTO[i])) {
+      SPAN.innerHTML = INTENTO[i];
+      SPAN.style.backgroundColor = "yellow";
+    } else {
+      SPAN.innerHTML = INTENTO[i];
+      SPAN.style.backgroundColor = "gray";
+    }
+    ROW.appendChild(SPAN);
+  }
+  intentos--;
+  if (intentos == 0) {
+    terminar(" Que lastima jaja");
+  }
 
-  
+  function terminar(mensaje) {
+    button.disabled = true;
+    let contenedor = document.getElementById("guesses");
+    contenedor.innerHTML = mensaje;
+  }
+  GRID.appendChild(ROW);
+}
