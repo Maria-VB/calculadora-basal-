@@ -1,23 +1,21 @@
-let calculadora = document.getElementById("calculadora");
+const FLUJO= document.getElementById("flu")
 
-calculadora=document.getElementById
-
-const FLUJO= document.getElementById("Flu")
 const BUTTON= document.getElementById("calcular");
+console.log(BUTTON)
 const INPUT= document.getElementById("peso");
 const ERROR= document.getElementById("error")
 
 BUTTON.addEventListener("click", ()=>{
     let peso= INPUT.value;
-
-    if(peso=== ´´ ){
+    if(peso=== " "){
         ERROR.style.display="block";
     } else if (peso<=30){
         FLUJO.innerHTML= holliday(peso)+ " cc";
         FLUJO.style.display="block";
         ERROR.style.display="none"
-    } else {
-        FLUJO.innerHTML=superficieCorporal(peso)+" cc";
+    } else if ( peso>30) {
+        let sc = superficieCorporal(peso)
+        FLUJO.innerHTML=sc[0] +" cc";
         FLUJO.style.display="block";
         ERROR.style.display="none";
     }
